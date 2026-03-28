@@ -1,73 +1,136 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ficha de Cadastro</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha Sirius - Desbravadores</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="container">
-<h1>Ficha de Cadastro</h1>
-
-<form id="form">
-<div class="step active">
-
-<h2>Dados Pessoais</h2>
-<input placeholder="Nome Completo" required>
-<input placeholder="Função">
-<input type="date">
-<select><option>Masculino</option><option>Feminino</option></select>
-<input placeholder="Estado Civil">
-<input placeholder="RG">
-<input placeholder="CPF">
-<input placeholder="Órgão Expedidor">
-
-<button type="button" onclick="next()">Próximo</button>
+<div id="splash-screen">
+    <div class="splash-content">
+        <i class="fas fa-star-of-david splash-logo"></i>
+        <h1>CLUBE DE DESBRAVADORES SIRIUS</h1>
+        <div class="loader"></div>
+        <p>Carregando Ficha de Cadastro...</p>
+    </div>
 </div>
 
-<div class="step">
-<h2>Contato</h2>
-<input placeholder="Telefone">
-<input placeholder="Celular">
-<input placeholder="E-mail">
-
-<h2>Endereço</h2>
-<input placeholder="Endereço">
-<input placeholder="Número">
-<input placeholder="Bairro">
-<input placeholder="Complemento">
-<input placeholder="CEP">
-<input placeholder="Cidade">
-<input placeholder="Estado">
-
-<button type="button" onclick="prev()">Voltar</button>
-<button type="button" onclick="next()">Próximo</button>
+<div id="modal-aviso" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-exclamation-triangle pulse-icon"></i>
+        <h2>ATENÇÃO!</h2>
+        <p>Ao abrir o WhatsApp, não esqueça de <strong>ANEXAR AS FOTOS</strong> do RG e do Cartão SUS que você tirou.</p>
+        <button id="btn-entendido">ENTENDIDO, IR PARA WHATSAPP</button>
+    </div>
 </div>
 
-<div class="step">
-<h2>Ficha Médica</h2>
-<input placeholder="Cartão SUS">
-<select><option>Plano de Saúde - Não</option><option>Sim</option></select>
-<input placeholder="Tipo Sanguíneo">
-<select><option>RH Positivo</option><option>RH Negativo</option></select>
+<div class="container" id="main-content" style="display:none;">
+    <header>
+        <div class="logo-top"><i class="fas fa-star-of-david"></i></div>
+        <h1>FICHA DE CADASTRO</h1>
+        <p>Unidade e Fé</p>
+    </header>
 
-<label>Diabetes</label>
-<select><option>Não</option><option>Sim</option></select>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+        <div class="steps">
+            <div class="step-item active">1</div>
+            <div class="step-item">2</div>
+            <div class="step-item">3</div>
+            <div class="step-item">4</div>
+            <div class="step-item">5</div>
+        </div>
+    </div>
 
-<label>Alergia</label>
-<select><option>Não</option><option>Sim</option></select>
+    <form id="multiStepForm">
+        <div class="form-step active">
+            <h2><i class="fas fa-user"></i> Dados Pessoais</h2>
+            <div class="input-group">
+                <label>Nome Completo *</label>
+                <input type="text" name="Nome" required>
+            </div>
+            <div class="grid-2">
+                <div class="input-group"><label>Função</label><input type="text" name="Funcao"></div>
+                <div class="input-group"><label>Nascimento</label><input type="date" name="Nascimento"></div>
+            </div>
+            <div class="grid-3">
+                <div class="input-group"><label>Sexo</label><select name="Sexo"><option>Masculino</option><option>Feminino</option></select></div>
+                <div class="input-group"><label>CPF *</label><input type="text" name="CPF" required></div>
+                <div class="input-group"><label>Batizado?</label><select name="Batizado"><option>Sim</option><option>Não</option></select></div>
+            </div>
+            <div class="upload-box">
+                <p>Tirar Foto do RG (Frente e Verso)</p>
+                <div class="grid-2">
+                    <input type="file" name="Foto_RG_Frente" accept="image/*" capture="camera">
+                    <input type="file" name="Foto_RG_Verso" accept="image/*" capture="camera">
+                </div>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn-next">Próximo</button>
+            </div>
+        </div>
 
-<textarea placeholder="Observações"></textarea>
+        <div class="form-step">
+            <h2><i class="fas fa-map-marker-alt"></i> Endereço</h2>
+            <div class="input-group"><label>Celular (WhatsApp) *</label><input type="tel" name="Celular" required></div>
+            <div class="grid-3">
+                <div class="input-group" style="grid-column: span 2;"><label>Rua</label><input type="text" name="Rua"></div>
+                <div class="input-group"><label>Nº</label><input type="text" name="Numero"></div>
+            </div>
+            <div class="grid-2">
+                <div class="input-group"><label>Bairro</label><input type="text" name="Bairro"></div>
+                <div class="input-group"><label>Cidade</label><input type="text" name="Cidade"></div>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn-prev">Voltar</button>
+                <button type="button" class="btn-next">Próximo</button>
+            </div>
+        </div>
 
-<button type="button" onclick="prev()">Voltar</button>
-<button type="submit">Enviar</button>
-</div>
+        <div class="form-step">
+            <h2><i class="fas fa-briefcase-medical"></i> Saúde</h2>
+            <div class="grid-2">
+                <div class="input-group"><label>Cartão SUS</label><input type="text" name="SUS"></div>
+                <div class="input-group"><label>Tipo Sanguíneo</label><input type="text" name="Sangue"></div>
+            </div>
+            <div class="upload-box">
+                <p>Tirar Foto do Cartão SUS</p>
+                <div class="grid-2">
+                    <input type="file" name="Foto_SUS_Frente" accept="image/*" capture="camera">
+                    <input type="file" name="Foto_SUS_Verso" accept="image/*" capture="camera">
+                </div>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn-prev">Voltar</button>
+                <button type="button" class="btn-next">Próximo</button>
+            </div>
+        </div>
 
-</form>
+        <div class="form-step">
+            <h2><i class="fas fa-exclamation-circle"></i> Informações Adicionais</h2>
+            <div class="input-group"><label>Alergias ou Medicações?</label><textarea name="Saude_Detalhes"></textarea></div>
+            <div class="input-group"><label>Escolaridade</label><input type="text" name="Escola"></div>
+            <div class="btn-group">
+                <button type="button" class="btn-prev">Voltar</button>
+                <button type="button" class="btn-next">Próximo</button>
+            </div>
+        </div>
 
-<p id="msg"></p>
+        <div class="form-step">
+            <h2><i class="fas fa-check-double"></i> Finalizar</h2>
+            <div class="input-group"><label>Local e Data</label><input type="text" name="DataFinal" value="Manaus, 2026"></div>
+            <div class="input-group"><label>Assinatura (Nome do Responsável)</label><input type="text" name="Assinatura" required></div>
+            <p style="font-size: 11px; color: #666;">Declaro que as informações acima são verdadeiras.</p>
+            <div class="btn-group">
+                <button type="button" class="btn-prev">Voltar</button>
+                <button type="submit" class="btn-submit">ENVIAR TUDO</button>
+            </div>
+        </div>
+    </form>
 </div>
 
 <script src="script.js"></script>
