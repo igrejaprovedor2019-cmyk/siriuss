@@ -1,4 +1,4 @@
-// 1. LÓGICA DO SPLASH SCREEN (2 SEGUNDOS)
+// SPLASH SCREEN
 window.addEventListener('load', () => {
     setTimeout(() => {
         document.getElementById('splash-screen').style.display = 'none';
@@ -6,36 +6,39 @@ window.addEventListener('load', () => {
     }, 2000);
 });
 
-// 2. LÓGICA DO FORMULÁRIO MULTI-STEP
+// MULTI-STEP LOGIC
 const steps = Array.from(document.querySelectorAll(".form-step"));
 const nextBtns = document.querySelectorAll(".btn-next");
 const prevBtns = document.querySelectorAll(".btn-prev");
-const progressSteps = document.querySelectorAll(".step-item");
+const progressItems = document.querySelectorAll(".step-item");
 const progressBar = document.getElementById("progressBar");
 
 nextBtns.forEach(btn => {
     btn.addEventListener("click", () => {
-        if (validateInputs()) changeStep(1);
+        if (validateInputs()) {
+            changeStep(1);
+        }
     });
 });
 
 prevBtns.forEach(btn => {
-    btn.addEventListener("click", () => changeStep(-1));
+    btn.addEventListener("click", () => {
+        changeStep(-1);
+    });
 });
 
 function changeStep(dir) {
     const active = document.querySelector(".form-step.active");
     let index = steps.indexOf(active);
     steps[index].classList.remove("active");
-    progressSteps[index].classList.remove("active");
+    progressItems[index].classList.remove("active");
     
     index += dir;
     
     steps[index].classList.add("active");
-    progressSteps[index].classList.add("active");
-    
-    let percent = (index / (steps.length - 1)) * 100;
-    progressBar.style.width = percent + "%";
+    progressItems[index].classList.add("active");
+    progressBar.style.width = (index / (steps.length - 1)) * 100 + "%";
+    window.scrollTo(0,0);
 }
 
 function validateInputs() {
@@ -44,22 +47,21 @@ function validateInputs() {
     let ok = true;
     required.forEach(i => {
         if (!i.value) { i.style.borderColor = "red"; ok = false; }
-        else { i.style.borderColor = "#ccc"; }
+        else { i.style.borderColor = "#ddd"; }
     });
     return ok;
 }
 
-// 3. LÓGICA DE ENVIO E AVISO PISCANDO
+// WHATSAPP SEND
 const form = document.getElementById("multiStepForm");
 const modal = document.getElementById("modal-aviso");
 const btnEntendido = document.getElementById("btn-entendido");
-let globalUrl = "";
+let finalUrl = "";
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
-    
     const formData = new FormData(form);
-    let texto = "⭐ *CADASTRO CLUBE SIRIUS* ⭐\n\n";
+    let texto = "⭐ *FICHA SIRIUS* ⭐\n\n";
 
     formData.forEach((value, key) => {
         if (!(value instanceof File) && value.trim() !== "") {
@@ -68,12 +70,11 @@ form.addEventListener("submit", (e) => {
     });
 
     const fone = "559291404115";
-    globalUrl = `https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(texto)}`;
-
-    // Mostrar o aviso piscando
+    finalUrl = `https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(texto)}`;
+    
     modal.style.display = "flex";
 });
 
 btnEntendido.addEventListener("click", () => {
-    window.location.href = globalUrl;
+    window.location.href = finalUrl;
 });
